@@ -5,18 +5,18 @@ urllib3.disable_warnings()
 
 def send_messages(mess):
     timestamp = long(round(time.time() * 1000))
+    headers = {'content-type': 'application/x-www-form-urlencoded'}
     data = { 'uid':uid,
              'message': mess}
     mac = hashlib.sha256(oaid+str(data)+str(timestamp)+secretkey).hexdigest()
     print mac
-    json_msg = {
+    msg = {
         'oaid': oaid,
         'data': data,
         'timestamp': timestamp,
         'mac': mac
     } 
-    r = requests.post(url=url, data=json.dumps(json_msg),verify=False)
-    #r = requests.post(url=url, data=json.dumps(json_msg))
+    r = requests.post(url=url, data=msg ,verify=False, headers=headers)
     print(r.status_code, r.reason)
     return r.text
 
