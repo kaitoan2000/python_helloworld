@@ -8,11 +8,11 @@ def send_messages(mess):
     headers = {'content-type': 'application/x-www-form-urlencoded'}
     data = { 'uid':uid,
              'message': mess}
-    mac = hashlib.sha256(oaid+str(data)+str(timestamp)+secretkey).hexdigest()
+    mac = hashlib.sha256(oaid+json.dumps(data)+str(timestamp)+secretkey).hexdigest()
     print mac
     msg = {
         'oaid': oaid,
-        'data': data,
+        'data': json.dumps(data),
         'timestamp': timestamp,
         'mac': mac
     } 
