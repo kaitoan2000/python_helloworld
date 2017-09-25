@@ -3,29 +3,46 @@ import sys,requests,hashlib,json,time
 import urllib3
 urllib3.disable_warnings()
 
-def send_messages(mess):
+def send_messages(phoneno,msg):
     timestamp = long(round(time.time() * 1000))
+    url = "https://openapi.zaloapp.com/oa/v1/sendmessage/text"
     headers = {'content-type': 'application/x-www-form-urlencoded'}
+    uid = get_uid_by_phone(phoneno)
     data = { 'uid':uid,
-             'message': mess}
+             'message': msg}
     mac = hashlib.sha256(oaid+json.dumps(data)+str(timestamp)+secretkey).hexdigest()
-    print mac
-    msg = {
+    data = {
         'oaid': oaid,
         'data': json.dumps(data),
         'timestamp': timestamp,
         'mac': mac
     } 
-    r = requests.post(url=url, data=msg ,verify=False, headers=headers)
-    print(r.status_code, r.reason)
-    return r.text
+    r = requests.post(url=url, data=data ,verify=False, headers=headers)
+    if r.status_code==200:
+	return 'OK'
+    else :
+	return 'FAILED'
+    #print(r.status_code, r.reason)
+
+def get_uid_by_phone(number):
+   url = "https://openapi.zaloapp.com/oa/v1/getprofile"
+   headers = {'content-type': 'application/x-www-form-urlencoded'}
+   timestamp = long(round(time.time() * 1000))
+   uid = number
+   mac = hashlib.sha256(oaid+uid+str(timestamp)+secretkey).hexdigest()
+   params = {
+       'oaid': oaid,
+       'uid': uid,
+       'timestamp': timestamp,
+       'mac': mac
+   }
+   r = requests.get(url=url, params=params, verify=False)
+   return r.json()['data']['userId']
 
 if __name__ == '__main__':
-    mess = sys.argv[1]
-    #uid = sys.argv[2]
-    url = "https://openapi.zaloapp.com/oa/v1/sendmessage/text"
-    oaid = "2066220378631905835"
-    uid = "2511225505091094674"
-    secretkey='75O77hTg1M5D14qs8S8J'
-    print send_messages(mess)
-
+    oaid = "2066220378631905835"        ##OA ZLPay.Alert
+    secretkey='75O77hTg1M5D14qs8S8J'    ##Secret Key fo OA
+    phone = sys.argv[1]                 ##Phone number to send message
+    msg = sys.argv[2]                   ##Message to send 
+    phoneno = str("84") + str(phone[1:])
+    print send_messages(phoneno,msg)
