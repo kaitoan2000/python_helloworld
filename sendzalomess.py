@@ -40,8 +40,8 @@ def get_uid_by_phone(number):
    return r.json()['data']['userId']
 
 if __name__ == '__main__':
-    oaid = "2066220378631905835"        ##OA ZLPay.Alert
-    secretkey='75O77hTg1M5D14qs8S8J'    ##Secret Key fo OA
+    oaid = "xxxx"        ##OA ZLPay.Alert
+    secretkey='xxxx'    ##Secret Key fo OA
     phone = sys.argv[1]                 ##Phone number to send message
     msg = sys.argv[2]                   ##Message to send 
     phoneno = str("84") + str(phone[1:])
