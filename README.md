@@ -1,2 +1,2 @@
 # python_helloworld
-Hello World 
+Some scr
