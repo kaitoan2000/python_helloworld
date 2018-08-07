@@ -1,2 +1,2 @@
 # python_helloworld
-Some scr
+Some scripts with hello world level!!!
