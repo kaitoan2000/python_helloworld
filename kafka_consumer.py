@@ -10,7 +10,7 @@ class Consumer(threading.Thread):
     def run(self):
         #consumer = KafkaConsumer(bootstrap_servers='lab2:9092',
         #                         auto_offset_reset='earliest')
-	consumer = KafkaConsumer(bootstrap_servers='lab2:9092')
+	consumer = KafkaConsumer(bootstrap_servers='localhost:9093')
         consumer.subscribe(['test'])
 
         for message in consumer:

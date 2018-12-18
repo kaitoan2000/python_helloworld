@@ -8,7 +8,7 @@ class Producer(threading.Thread):
     daemon = True
 
     def run(self):
-        producer = KafkaProducer(bootstrap_servers='lab2:9092')
+        producer = KafkaProducer(bootstrap_servers='localhost:9093')
 
         for i in range(100):
             producer.send('test', b"\xc2%d" % i)
